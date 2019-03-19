@@ -1,0 +1,76 @@
+<mat-card>
+  <form #campaignForm="ngForm" (ngSubmit)="save(campaignForm.value)">
+    <mat-card-header>
+      <h1>{{campaign.id ? 'Edit' : 'Add'}} Campaign</h1>
+    </mat-card-header>
+
+    <mat-card-content>
+      <h2>Current budget: {{budget}}</h2>
+
+      <input type="hidden" name="href" [(ngModel)]="campaign.href">
+
+      <mat-form-field>
+        <input matInput placeholder="Campaign Name" [(ngModel)]="campaign.name" required name="name" #name>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <input matInput type="number" min="0" placeholder="Bid amount" [(ngModel)]="campaign.bidAmount" required
+               name="bidAmount" #bidAmount>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <input matInput type="number" min="0" max="{{budget}}" placeholder="Campaign fund" [(ngModel)]="campaign.fund"
+               required name="fund"
+               #fundControl="ngModel">
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <input matInput type="number" min="0" placeholder="Radius" [(ngModel)]="campaign.radius" required name="radius"
+               #radius>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <mat-label>Town</mat-label>
+        <mat-select [(ngModel)]="campaign.town" name="town" #town>
+          <mat-option value="Cracow">Cracow</mat-option>
+          <mat-option value="Warsaw">Warsaw</mat-option>
+          <mat-option value="Gdansk">Gdansk</mat-option>
+          <mat-option value="Wroclaw">Wroclaw</mat-option>
+          <mat-option value="Katowice">Katowice</mat-option>
+          <mat-option value="Lublin">Lublin</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+
+      <mat-form-field>
+        <mat-label>Keyword</mat-label>
+        <input type="text" matInput required [matAutocomplete]="auto" [formControl]="myControl"
+               [(ngModel)]="campaign.keywords" name="keywords" #keywords>
+        <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn" [(ngModel)]="campaign.keywords" name="keywords">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.keyword">
+            {{option.keyword}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <br>
+      <mat-slide-toggle color="primary" [(ngModel)]="campaign.active" name="active" #active>
+        Status
+      </mat-slide-toggle>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit"
+              [disabled]="!campaignForm.form.valid">Save
+      </button>
+      <button mat-raised-button color="secondary" (click)="remove(campaign.href)"
+              *ngIf="campaign.href" type="button">Delete
+      </button>
+      <a mat-button routerLink="/campaign-list">Cancel</a>
+    </mat-card-actions>
+  </form>
+</mat-card>

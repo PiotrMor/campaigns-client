@@ -1,0 +1,34 @@
+<mat-card>
+  <mat-card-header>
+    <h1>Campaigns List</h1><br>
+  </mat-card-header>
+  <mat-card-content>
+    <h2 mat-line>Current budget: {{budget}}</h2>
+    <mat-list>
+      <mat-list-item *ngFor="let campaign of campaigns; last as last">
+
+        <h2 mat-line>Name: {{campaign.name}}</h2>
+        <p mat-line>Bid amount: {{campaign.bidAmount}}</p>
+        <p mat-line>Campaign fund: {{campaign.fund}}</p>
+        <p mat-line *ngIf="campaign.town">Town: {{campaign.town}}</p>
+        <p mat-line>Radius: {{campaign.radius}} km</p>
+        <p mat-line>Keywords: {{campaign.keywords}}</p>
+        <p mat-line *ngIf="campaign.active">Status: On</p>
+        <p mat-line *ngIf="!campaign.active">Status: Off</p>
+
+
+        <button mat-raised-button color="accent" [routerLink]="['/campaign-edit', campaign.id]"
+                type="button">
+          Edit
+        </button>
+
+
+        <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+
+
+  <button mat-fab color="primary" [routerLink]="['/campaign-add']">Add</button>
+
+</mat-card>
